@@ -1,0 +1,48 @@
+#!/bin/bash
+RANGE=100
+FLOOR=0
+number=0
+try=3
+while [ "$number" -le $FLOOR ]
+do
+number=$RANDOM
+let "number %= $RANGE"
+done
+while (("$try" > "0"))
+do
+echo "Вводи число от 1 до 99"
+while true
+do
+read my_number
+re='^[0-9]+$'
+if ! [[ $my_number =~ $re ]]
+then
+echo "Вы ввели не число"
+elif (("$my_number" > 99))
+then
+echo "Вы ввели число вне диапазона"
+echo "Вводи число от 1 до 99"
+elif [ "$my_number" -eq 0 ]
+then
+echo "Вы ввели число вне диапазона"
+echo "Вводи число от 1 до 99"
+else
+break
+fi
+done
+if [ "$my_number" -eq "$number" ]
+then
+echo "Угадал"
+exit 0
+elif (("$my_number" > "$number"))
+then
+echo "Меньше"
+elif (("$my_number" < "$number"))
+then
+echo "Больше"
+fi
+let try--
+echo "Осталось $try попытка(и)"
+done
+echo "Число было $number"
+
